@@ -72,6 +72,10 @@ alpine-image: build ## Create Docker image for Ingress Controller (alpine)
 alpine-image-plus: build ## Create Docker image for Ingress Controller (alpine plus)
 	$(DOCKER_CMD) $(PLUS_ARGS) --build-arg BUILD_OS=alpine-plus
 
+.PHONY: alpine-image-plus-sigsci
+alpine-image-plus: build ## Create Docker image for Ingress Controller (alpine plus + Signal Sciences Module)
+	$(DOCKER_CMD) $(PLUS_ARGS) --build-arg BUILD_OS=alpine-plus-sigsci
+
 .PHONY: debian-image-plus
 debian-image-plus: build ## Create Docker image for Ingress Controller (nginx plus)
 	$(DOCKER_CMD) $(PLUS_ARGS) --build-arg BUILD_OS=debian-plus

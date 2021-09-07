@@ -35,6 +35,34 @@ RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/apk/cert.pem,mode=0644 \
 	&& apk add --no-cache libcap nginx-plus~${NGINX_PLUS_VERSION#r} nginx-plus-module-njs~${NGINX_PLUS_VERSION#r} 
 
 
+############################################# Base image for Alpine with NGINX Plus + Signal Sciences Module #############################################
+FROM alpine:3.13 as alpine-plus-sigsci
+ARG NGINX_PLUS_VERSION
+
+RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/apk/cert.pem,mode=0644 \
+	--mount=type=secret,id=nginx-repo.key,dst=/etc/apk/cert.key,mode=0644 \
+	wget -nv -O /etc/apk/keys/nginx_signing.rsa.pub https://cs.nginx.com/static/keys/nginx_signing.rsa.pub \
+	&& printf "%s\n" "https://pkgs.nginx.com/plus/alpine/v$(grep -E -o '^[0-9]+\.[0-9]+' /etc/alpine-release)/main" >> /etc/apk/repositories \
+	&& apk add --no-cache libcap nginx-plus~${NGINX_PLUS_VERSION#r} nginx-plus-module-njs~${NGINX_PLUS_VERSION#r} \
+	&& apk update && apk add --no-cache gnupg wget --virtual ./build_deps \
+    # Figure out which alpine release this is
+    && ALPINE_RELEASE=$(cat /etc/alpine-release) \
+    && ALPINE_RELEASE=${ALPINE_RELEASE::-2} \
+    # Figure out which nginx is installed in the container
+    && NGXVERSION=$(nginx -v 2>&1 | sed 's%^[^/]*/\([0-9]*\.[0-9]*\.[0-9]*\).*%\1%') \
+    # Get the latest version of the sigsci nginx native module
+    && MODULE_VERSION=$(wget -O- -q https://dl.signalsciences.net/sigsci-module-nginx-native/VERSION) \
+    # Get the correct sigsci nginx native module based on alpine version, nginx version, and module version
+    && wget https://apk.signalsciences.net/sigsci_apk.pub && mv sigsci_apk.pub /etc/apk/keys \
+    && echo "https://apk.signalsciences.net/${ALPINE_RELEASE}/main" | tee -a /etc/apk/repositories \
+    && apk add ${PKGNAME}-${NGXVERSION} \
+    && ln -s /usr/lib/nginx/modules/ngx_http_sigsci_module.so /etc/nginx/modules/ngx_http_sigsci_module.so \
+    && sed -i 's@^pid.*@&\nload_module /usr/lib/nginx/modules/ngx_http_sigsci_module.so;\n@' /etc/nginx/nginx.conf \
+    # cleanup
+    && apk del --no-cache ./build_deps \
+    && rm /etc/apk/keys/sigsci_apk.pub 
+
+
 ############################################# Base image for Debian with NGINX Plus #############################################
 FROM debian:buster-slim AS debian-plus
 ARG IC_VERSION
