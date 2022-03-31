@@ -101,11 +101,13 @@ RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode
 	&& apt-get install -y libc6 libc-bin libsystemd0 libudev1 \
 	&& curl -fsSL https://cs.nginx.com/static/keys/nginx_signing.key | gpg --dearmor > /etc/apt/trusted.gpg.d/nginx_signing.gpg \
 	&& curl -fsSL -o /etc/apt/apt.conf.d/90pkgs-nginx https://cs.nginx.com/static/files/90pkgs-nginx \
+	&& DEBIAN_VERSION=$(awk -F '=' '/^VERSION_CODENAME=/ {print $2}' /etc/os-release) \
+	# wallarm
 	&& curl -fsSL https://repo.wallarm.com/wallarm.gpg | apt-key add - \
-        && printf "%s\n" "deb http://repo.wallarm.com/ubuntu/wallarm-node bionic/3.6/" > /etc/apt/sources.list.d/wallarm.list \
+        && printf "%s\n" "deb http://repo.wallarm.com/ubuntu/wallarm-node ${DEBIAN_VERSION}" > /etc/apt/sources.list.d/wallarm.list \
         && apt-get update \
 	&& sudo apt install --no-install-recommends wallarm-node nginx-plus-module-wallarm \
-	&& DEBIAN_VERSION=$(awk -F '=' '/^VERSION_CODENAME=/ {print $2}' /etc/os-release) \
+	# wallarm
 	&& printf "%s\n" "Acquire::https::pkgs.nginx.com::User-Agent \"k8s-ic-$IC_VERSION${BUILD_OS##debian-plus}-apt\";" >> /etc/apt/apt.conf.d/90pkgs-nginx \
 	&& printf "%s\n" "deb https://pkgs.nginx.com/plus/${NGINX_PLUS_VERSION^^}/debian ${DEBIAN_VERSION} nginx-plus" > /etc/apt/sources.list.d/nginx-plus.list \
 	&& apt-get update \
