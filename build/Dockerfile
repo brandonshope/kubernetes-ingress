@@ -104,7 +104,7 @@ RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode
 	&& DEBIAN_VERSION=$(awk -F '=' '/^VERSION_CODENAME=/ {print $2}' /etc/os-release) \
 	# wallarm
 	&& curl -fsSL https://repo.wallarm.com/wallarm.gpg | apt-key add - \
-        && printf "%s\n" "deb http://repo.wallarm.com/ubuntu/wallarm-node ${DEBIAN_VERSION}" > /etc/apt/sources.list.d/wallarm.list \
+        && printf "%s\n" "deb http://repo.wallarm.com/ubuntu/wallarm-node ${DEBIAN_VERSION}/3.6/" > /etc/apt/sources.list.d/wallarm.list \
         && apt-get update \
 	&& sudo apt install --no-install-recommends wallarm-node nginx-plus-module-wallarm \
 	# wallarm
