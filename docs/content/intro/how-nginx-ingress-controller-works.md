@@ -1,16 +1,17 @@
 ---
 title: How NGINX Ingress Controller Works
-description: 
+description: "This document explains how NGINX Ingress Controller works."
 weight: 300
 doctypes: [""]
 toc: true
+docs: "DOCS-609"
 ---
 
 
 This document explains how NGINX Ingress Controller works. The target audience includes the following two main groups:
 
 * *Operators* who would like to know how the software works and also better understand how it can fail.
-* *Developers* who would like to [contribute](https://github.com/nginxinc/kubernetes-ingress/blob/master/CONTRIBUTING.md) to the project.
+* *Developers* who would like to [contribute](https://github.com/nginxinc/kubernetes-ingress/blob/main/CONTRIBUTING.md) to the project.
 
 We assume that the reader is familiar with core Kubernetes concepts, such as Pod, Deployment, Service, and Endpoints. Additionally, we recommend reading [this blog post](https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/) for an overview of the NGINX architecture.
 
@@ -101,14 +102,14 @@ The preceding diagram depicts the IC with NGINX. The IC also supports NGINX Plus
 This section covers the architecture of the IC process, including:
 
 * How the IC processes a new Ingress resource created by a user.
-* The summary of how the IC works and how it relates to Kubernetes Controllers.  
+* The summary of how the IC works and how it relates to Kubernetes Controllers.
 * The different components of the IC process.
 
 ### Processing a New Ingress Resource
 
 The following diagram depicts how the IC processes a new Ingress resource. We represent the NGINX master and worker processes as a single rectangle *NGINX* for simplicity. Also, note that VirtualServer and VirtualServerRoute resources are processed similarly.
 
-{< img title="IC process" src="./img/ic-process.png" >}}
+{{< img title="IC process" src="./img/ic-process.png" >}}
 
 Processing a new Ingress resource involves the following steps, where each step corresponds to the arrow on the diagram with the same number:
 
