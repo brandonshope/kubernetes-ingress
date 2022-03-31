@@ -106,7 +106,7 @@ debian-image-plus: build ## Create Docker image for Ingress Controller (Debian w
 	$(DOCKER_CMD) $(PLUS_ARGS) --build-arg BUILD_OS=debian-plus
 		
 .PHONY: debian-image-plus-wallarm
-debian-image-plus: build ## Create Docker image for Ingress Controller (Debian with NGINX Plus + Wallarm)
+debian-image-plus-wallarm: build ## Create Docker image for Ingress Controller (Debian with NGINX Plus + Wallarm)
 	$(DOCKER_CMD) $(PLUS_ARGS) --build-arg BUILD_OS=debian-plus-wallarm
 
 .PHONY: debian-image-nap-plus
