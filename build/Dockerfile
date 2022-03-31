@@ -111,7 +111,7 @@ RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode
 	&& curl -fsSL https://repo.wallarm.com/wallarm.gpg | apt-key add - \
         && printf "%s\n" "deb http://repo.wallarm.com/debian/wallarm-node ${DEBIAN_VERSION}/3.6/" > /etc/apt/sources.list.d/wallarm.list \
         && apt-get update \
-	&& apt-get install --no-install-recommends wallarm-node nginx-plus-module-wallarm \
+	&& apt-get install --no-install-recommends -y wallarm-node nginx-plus-module-wallarm \
 	# wallarm
 	&& apt-get purge --auto-remove -y apt-transport-https gnupg curl \
 	&& rm -rf /var/lib/apt/lists/*
