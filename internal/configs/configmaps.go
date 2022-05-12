@@ -591,9 +591,9 @@ func GenerateNginxMainConfig(staticCfgParams *StaticConfigParams, config *Config
 		AppProtectDosLogFormat:             config.MainAppProtectDosLogFormat,
 		AppProtectDosLogFormatEscaping:     config.MainAppProtectDosLogFormatEscaping,
 		InternalRouteServer:                staticCfgParams.EnableInternalRoutes,
-		InternalRouteServerName:            staticCfgParams.PodName,
+		InternalRouteServerName:            staticCfgParams.InternalRouteServerName,
 		LatencyMetrics:                     staticCfgParams.EnableLatencyMetrics,
-		PreviewPolicies:                    staticCfgParams.EnablePreviewPolicies,
+		OIDC:                               staticCfgParams.EnableOIDC,
 	}
 	return nginxCfg
 }

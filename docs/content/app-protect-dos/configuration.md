@@ -9,7 +9,7 @@ docs: "DOCS-580"
 ---
 
 This document describes how to configure the NGINX App Protect DoS module
-> Check out the complete [NGINX Ingress Controller with App Protect DoS example resources on GitHub](https://github.com/nginxinc/kubernetes-ingress/tree/v2.1.2/examples/appprotect-dos).
+> Check out the complete [NGINX Ingress Controller with App Protect DoS example resources on GitHub](https://github.com/nginxinc/kubernetes-ingress/tree/v2.2.0/examples/appprotect-dos).
 
 ## App Protect DoS Configuration
 
@@ -89,7 +89,7 @@ You would create an `APDosPolicy` resource with the policy defined in the `spec`
       tls_fingerprint: "on"
   ```
 
-Then add a reference in the `DosProtectedResrouce` to the `ApDosPolicy`:
+Then add a reference in the `DosProtectedResource` to the `ApDosPolicy`:
   ```yaml
    apiVersion: appprotectdos.f5.com/v1beta1
    kind: DosProtectedResource

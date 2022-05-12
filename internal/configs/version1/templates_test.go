@@ -18,8 +18,7 @@ var testUps = Upstream{
 	UpstreamZoneSize: "256k",
 	UpstreamServers: []UpstreamServer{
 		{
-			Address:     "127.0.0.1",
-			Port:        "8181",
+			Address:     "127.0.0.1:8181",
 			MaxFails:    0,
 			MaxConns:    0,
 			FailTimeout: "1s",
@@ -40,7 +39,6 @@ var (
 )
 
 var ingCfg = IngressNginxConfig{
-
 	Servers: []Server{
 		{
 			Name:         "test.example.com",
@@ -50,7 +48,7 @@ var ingCfg = IngressNginxConfig{
 				Key:                  "/etc/nginx/secrets/key.jwk",
 				Realm:                "closed site",
 				Token:                "$cookie_auth_token",
-				RedirectLocationName: "@login_url-default-cafe-ingres",
+				RedirectLocationName: "@login_url-default-cafe-ingress",
 			},
 			SSL:               true,
 			SSLCertificate:    "secret.pem",
