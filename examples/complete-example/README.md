@@ -21,19 +21,19 @@ In this example we deploy the NGINX or NGINX Plus Ingress Controller, a simple w
 
 Create the coffee and the tea deployments and services:
 ```
-$ kubectl create -f cafe.yaml
+$ kubectl apply -f cafe.yaml
 ```
 
 ## 3. Configure Load Balancing
 
 1. Create a secret with an SSL certificate and a key:
     ```
-    $ kubectl create -f cafe-secret.yaml
+    $ kubectl apply -f cafe-secret.yaml
     ```
 
 2. Create an Ingress resource:
     ```
-    $ kubectl create -f cafe-ingress.yaml
+    $ kubectl apply -f cafe-ingress.yaml
     ```
 
 ## 4. Test the Application
